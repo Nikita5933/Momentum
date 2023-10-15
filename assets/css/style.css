@@ -1,0 +1,86 @@
+body {
+    background-color: cadetblue;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Lora', serif;
+}
+body, html {
+    height: 100%;
+}
+
+.wrapper {
+    display: grid;
+    justify-content: center;
+    align-content: center;
+    width: 90vw;
+    height: 90vh;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: 4fr 3fr;
+    gap: 4%;
+}
+.wrapper > div {
+    border-radius: 20px;
+    padding: 12px;
+}
+.wrapper__date {
+    background-color: rgba(255,215,0,.5);
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    position: relative;
+}
+.wrapper__date-time {
+    font-size: 5.5rem;
+    margin: 1.5rem 0;
+}
+.wrapper__date-date{
+    font-size: 1.875rem;
+    margin-bottom: 1rem;
+}
+.wrapper__date-greetings {
+    font-size: 1.25rem;
+}
+.wrapper__weather {
+    background-color: darkorchid;
+}
+.wrapper__clocks {
+    background-color: dimgray;
+}
+.wrapper__quotes {
+    background-color: mediumblue;
+}
+.wrapper__date-greetings {
+    display: flex;
+    padding-left: 30%;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 0.8rem;
+}
+.wrapper__date-greetings input, .wrapper__date-focus input {
+    border: none;
+    /*width: 100%;*/
+    background-color: rgba(255,215,0,0);
+}
+.wrapper__date-focus {
+    width: 100%;
+    font-size: 1.25rem;
+    text-align: center;
+}
+.wrapper__date-focus legend {
+    text-align: center;
+    display: inline-block;
+    margin-bottom: 0.8rem;
+}
+.wrapper__date-focus input {
+    text-align: center;
+}
+.refresh {
+    width: 30px;
+    height: 30px;
+    bottom: 10px;
+    right: 10px;
+    position: absolute;
+    cursor: pointer;
+    align-self: end;
+}
