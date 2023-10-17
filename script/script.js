@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () =>{
 // Date
     const time = document.querySelector('.wrapper__date-time');
     const date = document.querySelector('.wrapper__date-date');
-    const greetings = document.querySelector('.wrapper__date-greetings legend')
+    const greetings = document.querySelector('.wrapper__date-greetings')
     setInterval(()=> {
         const date = new Date();
         const checkerAMPM = date.toLocaleString('en-US', { hour: 'numeric', hour12: true })[2];
@@ -11,8 +11,12 @@ document.addEventListener('DOMContentLoaded', () =>{
         const currentTime = date.toTimeString().substring(2,8)
         if (checkerAMPM === 'A') {
             time.innerText = `${currentHours}${currentTime} AM`;
+        } else if (checkerAMPM === 'P' && currentHours != 12) {
+            time.innerText = `${currentHours - 12}${currentTime} PM`;
+            return;
         }
-        time.innerText = `${currentHours - 12}${currentTime} PM`;
+        time.innerText = `${currentHours}${currentTime} PM`;
+
     },1000);
     const dateNow = new Date();
     let currentWeekday = dateNow.getDay();
@@ -29,8 +33,6 @@ document.addEventListener('DOMContentLoaded', () =>{
     } else if (currentTimeGreetings >= 18 && currentTimeGreetings <= 23) {
         greetings.innerText += ' Evening,';
     }
-    console.log(currentTimeGreetings)
-
 
     switch (currentWeekday) {
         case 1:
@@ -116,5 +118,30 @@ document.addEventListener('DOMContentLoaded', () =>{
             break;
     }
     date.innerText = `${currentWeekday}, ${currentDay} of ${currentMonth}`;
+
+    // Refresh
+
+    const refreshBtn = document.querySelector('.refresh');
+
+    refreshBtn.addEventListener('click', () => {
+        refreshBtn.classList.add('rotateClass');
+        setTimeout(() => {
+            refreshBtn.classList.remove('rotateClass');
+        }, 800)
+    })
+
+    // Span
+
+    const spans = document.querySelectorAll('.wrapper__date-span');
+
+    spans.forEach((item,i) => {
+        item.addEventListener('keydown', (e) => {
+            if (e.target.innerText.length >= 34 && i === 0) {
+                e.target.innerText = e.target.innerText.substring(0,34);
+            } else {
+                e.target.innerText = e.target.innerText.substring(0,49);
+            }
+        })
+    });
 })
 

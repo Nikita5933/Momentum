@@ -36,7 +36,7 @@ body, html {
 }
 .wrapper__date-date{
     font-size: 1.875rem;
-    margin-bottom: 1rem;
+    margin-bottom: 0.9rem;
 }
 .wrapper__date-greetings {
     font-size: 1.25rem;
@@ -50,17 +50,24 @@ body, html {
 .wrapper__quotes {
     background-color: mediumblue;
 }
-.wrapper__date-greetings {
+.wrapper__greetings-wrapper {
     display: flex;
-    padding-left: 30%;
-    width: 100%;
+    align-items: center;
+    justify-content: center;
     box-sizing: border-box;
+    width: 100%;
     margin-bottom: 0.8rem;
 }
-.wrapper__date-greetings input, .wrapper__date-focus input {
-    border: none;
-    /*width: 100%;*/
-    background-color: rgba(255,215,0,0);
+.wrapper__date-span {
+    font-size: 20px;
+    margin-left: 10px;
+    min-width: 12px;
+    padding: 5px;
+}
+.wrapper__date-focus + .wrapper__date-span {
+    margin: 10px 0 0 0;
+    width: 100%;
+    text-align: center;
 }
 .wrapper__date-focus {
     width: 100%;
@@ -76,11 +83,24 @@ body, html {
     text-align: center;
 }
 .refresh {
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
     bottom: 10px;
     right: 10px;
     position: absolute;
     cursor: pointer;
     align-self: end;
+}
+
+@keyframes refreshRotate {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(-360deg);
+    }
+}
+.rotateClass {
+    animation: refreshRotate .8s ease-out;
 }
