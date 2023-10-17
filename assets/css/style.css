@@ -1,5 +1,6 @@
 body {
-    background-color: cadetblue;
+background: url("https://random.imagecdn.app/2560/1440") 100% 100% no-repeat;
+    background-size: cover;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -7,6 +8,15 @@ body {
 }
 body, html {
     height: 100%;
+}
+.time {
+    display: inline-block;
+    width: 56px;
+    margin: 0 2px;
+    padding: 0 2px;
+    border-radius: 5px;
+    box-sizing: border-box;
+    background-color: rgba(232, 224, 215, 0.85);
 }
 
 .wrapper {
@@ -33,6 +43,8 @@ body, html {
 .wrapper__date-time {
     font-size: 5.5rem;
     margin: 1.5rem 0;
+    width: 100%;
+    text-align: center;
 }
 .wrapper__date-date{
     font-size: 1.875rem;
