@@ -4,19 +4,44 @@ document.addEventListener('DOMContentLoaded', () =>{
     const time = document.querySelector('.wrapper__date-time');
     const date = document.querySelector('.wrapper__date-date');
     const greetings = document.querySelector('.wrapper__date-greetings')
+    const hourSpan = document.querySelectorAll('.time_hour');
+    const minSpan = document.querySelectorAll('.time_min');
+    const secSpan = document.querySelectorAll('.time_sec');
+    const checkerAMPM = (new Date()).toLocaleString('en-US', { hour: 'numeric', hour12: true })[2];
+    const spanPM = document.createElement('span');
+    const spanAM = document.createElement('span');
+    spanPM.innerText = 'PM';
+    spanAM.innerText = 'AM';
+    if (checkerAMPM === 'A') {
+        time.append(spanAM);
+    }
+    time.append(spanPM)
     setInterval(()=> {
         const date = new Date();
-        const checkerAMPM = date.toLocaleString('en-US', { hour: 'numeric', hour12: true })[2];
         const currentHours = date.toTimeString().substring(0,2)
-        const currentTime = date.toTimeString().substring(2,8)
+        const currentMin = date.toTimeString().substring(3,5)
+        const currentSec = date.toTimeString().substring(6,8)
         if (checkerAMPM === 'A') {
-            time.innerText = `${currentHours}${currentTime} AM`;
-        } else if (checkerAMPM === 'P' && currentHours != 12) {
-            time.innerText = `${currentHours - 12}${currentTime} PM`;
-            return;
-        }
-        time.innerText = `${currentHours}${currentTime} PM`;
+            hourSpan[0].innerHTML = currentHours[0];
+            hourSpan[1].innerHTML = currentHours[1];
+            minSpan[0].innerHTML = currentMin[0];
+            minSpan[1].innerHTML = currentMin[1];
+            secSpan[0].innerHTML = currentSec[0];
+            secSpan[1].innerHTML = currentSec[1];
+        } else if (checkerAMPM === 'P') {
+            minSpan[0].innerHTML = currentMin[0];
+            minSpan[1].innerHTML = currentMin[1];
+            secSpan[0].innerHTML = currentSec[0];
+            secSpan[1].innerHTML = currentSec[1];
+            if(currentHours - 12 < 10) {
+                hourSpan[0].innerHTML = '0';
+                hourSpan[1].innerHTML = currentHours - 12;
+            } else if (currentHours >= 10) {
+                hourSpan[0].innerHTML = currentHours[0];
+                hourSpan[1].innerHTML = currentHours[1];
+            }
 
+        }
     },1000);
     const dateNow = new Date();
     let currentWeekday = dateNow.getDay();
