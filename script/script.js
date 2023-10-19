@@ -155,18 +155,80 @@ document.addEventListener('DOMContentLoaded', () =>{
         }, 800)
     })
 
-    // Span
+    // Localstorage
 
     const spans = document.querySelectorAll('.wrapper__date-span');
+    const nameTitle = document.querySelector('[data-name]');
+    const focusTitle = document.querySelector('[data-focus]');
 
+    function init(localKey,title,name,backup) {
+        getDataFromLocalStorage(localKey, title,name);
+        saveToLocalStorage(backup, title.textContent);
+    }
+
+    function changeTitle(e,nameOfTitle, backup) {
+        if (e.keyCode === 13) {
+            saveToLocalStorage(nameOfTitle, e.target.textContent);
+            saveToLocalStorage(backup,e.target.textContent);
+            e.target.blur();
+        }
+        if (e.keyCode === 27) {
+            e.target.textContent = localStorage.getItem(backup);
+            e.target.blur();
+        }
+    }
+
+    function saveToLocalStorage(name, value) {
+        localStorage.setItem(name, value);
+    }
+
+    function getDataFromLocalStorage(localKey,title,name) {
+        let data = localStorage.getItem(localKey);
+        if (data) {
+            title.textContent = data;
+            return;
+        }
+        title.textContent = `[ENTER ${name}]`;
+    }
+    function saveToLocalStorageAfterBlur(e, nameTitle,backup) {
+        saveToLocalStorage(backup, e.target.textContent)
+        saveToLocalStorage(nameTitle, e.target.textContent)
+    }
+
+
+
+    window.addEventListener('load', init.bind(null,'nameTitle',nameTitle,'NAME', 'backupTitle'));
+    nameTitle.addEventListener('keydown', e => changeTitle(e,'nameTitle', 'backupTitle'));
+    nameTitle.addEventListener('blur', e => saveToLocalStorageAfterBlur(e, 'nameTitle', 'backupTitle'));
+
+    window.addEventListener('load', init.bind(null,'focusTitle',focusTitle,'FOCUS', 'backupFocus'));
+    focusTitle.addEventListener('keydown', e => changeTitle(e,'focusTitle', 'backupFocus'));
+    focusTitle.addEventListener('blur', e => saveToLocalStorageAfterBlur(e, 'focusTitle', 'backupFocus'));
     spans.forEach((item,i) => {
         item.addEventListener('keydown', (e) => {
-            if (e.target.innerText.length >= 34 && i === 0) {
-                e.target.innerText = e.target.innerText.substring(0,34);
-            } else {
-                e.target.innerText = e.target.innerText.substring(0,49);
+            if (e.target.innerText.length >= 26 && i === 0) {
+                if (e.keyCode === 8 || e.keyCode === 46 || e.keyCode === 37 || e.keyCode === 39) {
+                    return;
+                }
+                e.preventDefault();
+            } else if (i === 1 && e.target.innerText.length >= 39) {
+                if (e.keyCode === 8 || e.keyCode === 46 || e.keyCode === 37 || e.keyCode === 39) {
+                    return;
+                }
+                e.preventDefault();
             }
-        })
+        });
+
+        // item.addEventListener('focus', (e)=> {
+        //     e.target.textContent = '';
+        // })
+        // item.addEventListener('blur', (e) => {
+        //     // console.log(backupTitle)
+        //     e.target.textContent = backupTitle;
+        // })
     });
+
 })
+
+
 

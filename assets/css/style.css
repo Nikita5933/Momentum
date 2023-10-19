@@ -23,8 +23,8 @@ body, html {
     display: grid;
     justify-content: center;
     align-content: center;
-    width: 90vw;
-    height: 90vh;
+    width: 95vw;
+    height: 95vh;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: 4fr 3fr;
     gap: 4%;
