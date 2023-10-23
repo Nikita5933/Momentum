@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () =>{
         const currentHours = date.toTimeString().substring(0, 2);
         const currentMin = date.toTimeString().substring(3, 5);
         const currentSec = date.toTimeString().substring(6, 8);
-        if (currentHours === '00' || (currentHours >= 1 && currentHours <= 12)) {
+        if (currentHours >= 1 && currentHours <= 12) {
             hourSpan[0].innerHTML = currentHours[0];
             hourSpan[1].innerHTML = currentHours[1];
         } else if (currentHours >= 13 && currentHours <= 21) {
@@ -30,7 +30,10 @@ document.addEventListener('DOMContentLoaded', () =>{
             hourSpan[1].innerHTML = currentHours - 12;
         } else if (currentHours >= 23) {
             hourSpan[0].innerHTML = '1';
-            hourSpan[1].innerHTML = (currentHours - 12)[1];
+            hourSpan[1].innerHTML = (currentHours-12).toString()[1];
+        } else if (currentHours == '00') {
+            hourSpan[0].innerHTML = '1';
+            hourSpan[1].innerHTML = (+currentHours + 12).toString()[1];
         }
         minSpan[0].innerHTML = currentMin[0];
         minSpan[1].innerHTML = currentMin[1];
