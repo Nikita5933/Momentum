@@ -1,5 +1,4 @@
 body {
-    /*background: url("https://random.imagecdn.app/1920/1080") 100% 100% no-repeat;*/
     background-size: cover;
     display: flex;
     justify-content: center;
@@ -79,7 +78,56 @@ body, html {
     font-size: 1.25rem;
 }
 .wrapper__weather {
-    background-color: darkorchid;
+    background-color: rgba(150, 43, 218, .5);
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+.wrapper__weather-city {
+    font-size: 3.85rem;
+    margin: 40px 0 25px 0;
+}
+.wrapper__weather-city span {
+    display: inline-block;
+    font-weight: 500;
+    min-width: 30px;
+}
+.wrapper__weather-block {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+}
+
+.wrapper__weather-pict {
+    align-self: center;
+    flex-grow: 0;
+    width: 150px;
+    min-width: 150px;
+    height: 150px;
+    background-image: url("../img/sprite/weather_sprite.gif");
+    background-position: -70px 246px;
+    background-size: 865%;
+    border-radius: 50%;
+}
+.wrapper__weather-temp {
+    text-align: center;
+    line-height: 30px;
+    font-size: 3rem;
+    color: white;
+    font-style: italic;
+    font-weight: 300;
+}
+.wrapper__weather-info {
+    font-size: 1.5rem;
+    font-weight: 600;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.wrapper__weather-info span {
+    color: white;
+    font-style: italic;
+    font-weight: 300;
 }
 .wrapper__clocks {
     background-color: dimgray;
