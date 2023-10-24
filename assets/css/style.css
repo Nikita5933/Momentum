@@ -4,6 +4,7 @@ body {
     justify-content: center;
     align-items: center;
     font-family: 'Lora', serif;
+    background-attachment: fixed;
 }
 @keyframes opacityBgFrame {
     0% {
@@ -107,7 +108,7 @@ body, html {
     background-image: url("../img/sprite/weather_sprite.gif");
     background-position: -70px 246px;
     background-size: 865%;
-    border-radius: 50%;
+    border-radius: 30px;
 }
 .wrapper__weather-temp {
     text-align: center;
@@ -122,6 +123,7 @@ body, html {
     font-weight: 600;
     display: flex;
     flex-direction: column;
+    margin-bottom: 40px;
     gap: 20px;
 }
 .wrapper__weather-info span {
@@ -189,4 +191,100 @@ body, html {
 
 .rotateClass {
     animation: refreshRotate .8s ease-out;
+}
+
+@media screen and (max-width: 1280px){
+    .wrapper {
+        grid-template-columns: 1fr;
+        align-content: flex-start;
+    }
+    .wrapper__date {
+        min-height: 350px;
+        max-height: 42media0px;
+    }
+    .wrapper__weather-block {
+        justify-content: center;
+        gap: 10%;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    html {
+        font-size: 13px;
+    }
+    .wrapper__date {
+        min-height: 300px;
+    }
+    .wrapper__weather-block {
+        justify-content: center;
+        gap: 4%;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    html {
+        font-size: 11px;
+    }
+    .wrapper__weather-block {
+        flex-direction: column;
+    }
+    .wrapper__weather-info {
+        align-items: center;
+        margin: 20px 0 10px 0;
+    }
+    .wrapper__date {
+        min-height: 340px;
+    }
+}
+
+@media screen and (max-width: 425px) {
+    html {
+        font-size: 9px;
+    }
+    .wrapper__date {
+        min-height: 250px;
+    }
+    .wrapper__weather-city {
+        margin-top: 10px;
+    }
+    .wrapper__date-date {
+        font-size: 2.4rem;
+    }
+    .wrapper__greetings-wrapper {
+        flex-direction: column;
+        gap: 6px;
+    }
+    .wrapper__date-greetings {
+        font-size: 2.4rem;
+    }
+    .wrapper__date-time {
+        font-size: 4.8rem;
+    }
+    .wrapper__date-focus {
+        font-size: 2rem;
+    }
+    .wrapper__weather-info {
+        font-size: 1.8rem;
+    }
+    .time {
+        width: 34px;
+    }
+}
+@media screen and (max-width: 375px) {
+    html  {
+        font-size: 8px;
+    }
+    .wrapper__date {
+        min-height: 270px;
+    }
+    .time {
+        width: 28px;
+    }
+    .wrapper {
+        width: 92vw;
+    }
+    .wrapper > div {
+        padding: 7px;
+    }
+
 }
