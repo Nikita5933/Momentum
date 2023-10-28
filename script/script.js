@@ -226,28 +226,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // API background image
 
-
     function backgroundImage(api, initFlag) {
-        fetch(api)
-            .then(response => {
-                const img = document.createElement('img');
-                img.src = response.url;
-                img.addEventListener('load', () => {
-                    if (initFlag) {
-                        document.body.style.backgroundImage = `url("${img.src}")`;
-                        document.body.style.backgroundRepeat = 'no-repeat';
-                    } else if (!initFlag) {
-                        const backgroundFrame = document.querySelector('.background');
-                        document.body.style.backgroundColor = 'rgba(0,0,0,.1)';
-                        document.body.style.backgroundImage = `url("${img.src}")`;
-                        document.body.style.backgroundRepeat = 'no-repeat';
-                        backgroundFrame.classList.add('opacityBG');
-                        setTimeout(() => {
-                            backgroundFrame.classList.remove('opacityBG');
-                        }, 400)
-                    }
+        fetch(api,{ headers: { 'X-Api-Key': 'LIZy/oRMSBzGuJGljz/ePA==z2C33S6Tv8rW4nzN', 'Accept': 'image.jpg'}})
+            .then(data => {
+                data.text().then(d => {
+                    const img = document.createElement('img');
+                    img.src = `data:image/png;base64,${d}`;
+                    img.addEventListener('load', () => {
+                        if (initFlag) {
+                            document.body.style.backgroundImage = `url("${img.src}")`;
+                            document.body.style.backgroundRepeat = 'no-repeat';
+                        } else if (!initFlag) {
+                            const backgroundFrame = document.querySelector('.background');
+                            document.body.style.backgroundColor = 'rgba(0,0,0,.1)';
+                            document.body.style.backgroundImage = `url("${img.src}")`;
+                            document.body.style.backgroundRepeat = 'no-repeat';
+                            backgroundFrame.classList.add('opacityBG');
+                            setTimeout(() => {
+                                backgroundFrame.classList.remove('opacityBG');
+                            }, 400)
+                        }
 
-                })
+                    })
+            })
             })
             .catch(err => {
                 console.log(err)
@@ -255,7 +256,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     }
 
-    backgroundImage('https://random.imagecdn.app/1920/1080', true);
+    backgroundImage('https://api.api-ninjas.com/v1/randomimage?category=nature&width=1920&height=1080', true);
 
     // Refresh
 
@@ -269,7 +270,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     refreshBtn.addEventListener('click', () => {
-        backgroundImage('https://random.imagecdn.app/1920/1080', false);
+        backgroundImage('https://api.api-ninjas.com/v1/randomimage?category=nature&width=1920&height=1080', false);
     })
 
     // Weather API
@@ -479,4 +480,12 @@ document.addEventListener('DOMContentLoaded', () => {
         getWeather(value);
     })
     initWeather();
+    // fetch('https://api.currencyapi.com/v3/latest?apikey=cur_live_hGAkXQlAtUCtm6IPwsosNiAbtbAhPeNQTpnTPAW5&currencies=EUR%2CUSD%2CRUB%2CBYN')
+    //     .then(data => {
+    //         return data.json();
+    //     })
+    //     .then(res => {
+    //         console.log(res)
+    //     })
+
 })
