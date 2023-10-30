@@ -1,9 +1,9 @@
 "use strict";
 document.addEventListener('DOMContentLoaded', () => {
 // Date
-    const time = document.querySelector('.wrapper__date-time');
-    const date = document.querySelector('.wrapper__date-date');
-    const greetings = document.querySelector('.wrapper__date-greetings');
+    const time = document.querySelector('.momentum__date-time');
+    const date = document.querySelector('.momentum__date-date');
+    const greetings = document.querySelector('.momentum__date-greetings');
     const hourSpan = document.querySelectorAll('.time_hour');
     const minSpan = document.querySelectorAll('.time_min');
     const secSpan = document.querySelectorAll('.time_sec');
@@ -144,7 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Localstorage
 
-    const spans = document.querySelectorAll('.wrapper__date-span');
+    const spans = document.querySelectorAll('.momentum__date-span');
     const nameTitle = document.querySelector('[data-name]');
     const focusTitle = document.querySelector('[data-focus]');
 
@@ -275,7 +275,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Weather API
     const CURRENT_API_WEATHER_KEY = '161d11578995b0dd48447acb004b6a41';
-    const wrapper = document.querySelector('.wrapper__weather-block');
+    const momentum = document.querySelector('.momentum__weather-block');
     const city = document.querySelector('.city');
 
     let status;
@@ -284,7 +284,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const dataObj= {};
         function changeIcon(value) {
             const div = document.createElement('div');
-            div.classList.add('wrapper__weather-pict');
+            div.classList.add('momentum__weather-pict');
 
             switch (value.id) {
                 case 200:
@@ -393,21 +393,21 @@ document.addEventListener('DOMContentLoaded', () => {
                     break;
 
             }
-           wrapper.append(div)
+           momentum.append(div)
         }
         function renderHTML(obj) {
             const div = `
-            <div class="wrapper__weather-info">
-            <div class="wrapper__weather-temp"><span>${obj.temp}</span> C°</div>
-            <div class="wrapper__weather-description">Weather:<span> ${obj.desc}</span></div>
-            <div class="wrapper__weather-humidity">Humidity:<span> ${obj.humidity} %</span></div>
-            <div class="wrapper__weather-wind">Wind speed: <span>${obj.wind} m/s</span></div>
+            <div class="momentum__weather-info">
+            <div class="momentum__weather-temp"><span>${obj.temp}</span> C°</div>
+            <div class="momentum__weather-description">Weather:<span> ${obj.desc}</span></div>
+            <div class="momentum__weather-humidity">Humidity:<span> ${obj.humidity} %</span></div>
+            <div class="momentum__weather-wind">Wind speed: <span>${obj.wind} m/s</span></div>
             </div>
             `;
 
-            wrapper.innerHTML = '';
+            momentum.innerHTML = '';
             changeIcon(obj)
-            wrapper.insertAdjacentHTML('beforeend', div)
+            momentum.insertAdjacentHTML('beforeend', div)
         }
         fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${value}&limit=3&appid=${CURRENT_API_WEATHER_KEY}`)
             .then(response => {
@@ -431,19 +431,19 @@ document.addEventListener('DOMContentLoaded', () => {
                         renderHTML(obj);
                     })
                     .catch(err => {
-                        const error = `<div class="wrapper__weather-error">Server error! Try later!</div>`;
-                        wrapper.innerText = '';
-                        wrapper.insertAdjacentHTML('beforeend', error);
+                        const error = `<div class="momentum__weather-error">Server error! Try later!</div>`;
+                        momentum.innerText = '';
+                        momentum.insertAdjacentHTML('beforeend', error);
                         console.log(err);
                     })
             })
             .catch(err => {
-                let error = `<div class="wrapper__weather-error">City data search error, please try to enter the city correctly!</div>`;
+                let error = `<div class="momentum__weather-error">City data search error, please try to enter the city correctly!</div>`;
                 if (status) {
-                    error = `<div class="wrapper__weather-error">Server error! Try later!</div>`;
+                    error = `<div class="momentum__weather-error">Server error! Try later!</div>`;
                 }
-                wrapper.innerText = '';
-                wrapper.insertAdjacentHTML('beforeend', error);
+                momentum.innerText = '';
+                momentum.insertAdjacentHTML('beforeend', error);
                 console.log(err);
             })
 
@@ -463,7 +463,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     })
     city.addEventListener('focus', (e)=> {
-        if (e.target.innerText === '[ENTER CITY]' || wrapper.children[0].classList.value === 'wrapper__weather-error') {
+        if (e.target.innerText === '[ENTER CITY]' || momentum.children[0].classList.value === 'momentum__weather-error') {
            e.target.innerText = '';
            saveToLocalStorage('city', '')
         }
@@ -472,7 +472,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.target.innerText === '') {
             e.target.innerText = '[ENTER CITY]';
             saveToLocalStorage('city', '')
-            wrapper.innerText = '';
+            momentum.innerText = '';
             return;
         }
         const value = city.innerText.trim();
