@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (currentHours >= 23) {
             hourSpan[0].innerHTML = '1';
             hourSpan[1].innerHTML = (currentHours - 12).toString()[1];
-        } else if (currentHours == '00') {
+        } else if (currentHours === '00') {
             hourSpan[0].innerHTML = '1';
             hourSpan[1].innerHTML = (+currentHours + 12).toString()[1];
         }
@@ -480,6 +480,7 @@ document.addEventListener('DOMContentLoaded', () => {
         getWeather(value);
     })
     initWeather();
+
     // fetch('https://api.currencyapi.com/v3/latest?apikey=cur_live_hGAkXQlAtUCtm6IPwsosNiAbtbAhPeNQTpnTPAW5&currencies=EUR%2CUSD%2CRUB%2CBYN')
     //     .then(data => {
     //         return data.json();
@@ -488,4 +489,60 @@ document.addEventListener('DOMContentLoaded', () => {
     //         console.log(res)
     //     })
 
+    // Currencies
+
+    const select = document.querySelectorAll('.select');
+    const selectLiFrom = select[0].querySelectorAll('.select ul li');
+    const selectLiTo = select[1].querySelectorAll('.select ul li');
+    const selectBtnFrom = select[0].querySelector('label button');
+    const selectBtnTo = select[1].querySelector('label button');
+    const currencyFrom = document.querySelectorAll('.fromCurrency');
+    const currencyTo = document.querySelectorAll('.toCurrency');
+
+
+    select.forEach(item => {
+        item.addEventListener('click', () => {
+            item.classList.toggle('active');
+        })
+    })
+
+    selectLiFrom.forEach(item => {
+        item.addEventListener('click', () => {
+            const text = item.textContent;
+            item.classList.add('active');
+            selectLiFrom.forEach(elem =>{
+                if (item !== elem) {
+                    elem.classList.remove('active');
+                }
+            })
+            selectBtnFrom.innerText = text;
+            selectBtnFrom.style.cssText = `background-image: url('assets/img/${text}.png');
+                                        background-size: contain;
+                                        background-repeat: no-repeat;
+                                        background-position: 55% 50%;`;
+            currencyFrom.forEach(item => {
+                item.textContent = text;
+            });
+        })
+    })
+    selectLiTo.forEach(item => {
+        item.addEventListener('click', () => {
+            const text = item.textContent;
+            item.classList.add('active');
+            selectLiTo.forEach(elem =>{
+                if (item !== elem) {
+                    elem.classList.remove('active');
+                }
+            })
+            selectBtnTo.innerText = text;
+            console.log(text)
+            selectBtnTo.style.cssText = `background-image: url('assets/img/${text}.png');
+                                        background-size: contain;
+                                        background-repeat: no-repeat;
+                                        background-position: 55% 50%;`;
+            currencyTo.forEach(item => {
+                item.textContent = text;
+            })
+        })
+    })
 })

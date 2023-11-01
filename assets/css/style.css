@@ -50,7 +50,7 @@ body, html {
     width: 95vw;
     height: 95vh;
     grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: 4fr 3fr;
+    grid-template-rows: repeat(2, 1fr);
     gap: 4%;
     z-index: 1;
 }
@@ -164,12 +164,12 @@ body, html {
     row-gap: 6px;
     font-size: 20px;
     text-align: center;
-    margin: 16px 0;
+    margin: 16px 0 30px 0;
     font-weight: 900;
     font-style: italic;
 }
 .momentum__currencies-output {
-    margin-top: 20px;
+    margin-top: 46px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -192,7 +192,7 @@ body, html {
 
 
 }
-.momentum__selections-btn {
+.momentum__selections-submit {
     width: 42px;
     height: 42px;
     align-self: end;
@@ -205,7 +205,7 @@ body, html {
     background-color: #000000;
     transition: box-shadow .3s;
 }
-.momentum__selections-btn:hover {
+.momentum__selections-submit:hover {
     box-shadow: 0 0 6px white;
 }
 .momentum__currencies label {
@@ -220,28 +220,83 @@ body, html {
     border: none;
     box-sizing: border-box;
 }
-option {
-    background: url("../img/usa.png")  0 1px no-repeat;
-    background-size: 20px;
-    padding-left: 20px;
-    border-radius: 500px;
-}
 
 .momentum__selections-from, .momentum__selections-to{
     width: 100%;
     max-width: 130px;
+    position: relative;
 }
 
-.select {
-    position: relative;
-    padding: 4px;
-    max-width: 130px;
-    width: 100%;
-    height: 42px;
-    outline: none;
-    border-radius: 5px;
-    border: none;
+.select *, .select:after, .select:before {
     box-sizing: border-box;
+}
+
+
+.select {
+    display: block;
+    color: black;
+    min-width: 130px;
+
+}
+.select *, .select :after, .select :before {
+    box-sizing: border-box;
+}
+.select ul li:focus, .select ul li:hover, .select ul li.active {
+    font-weight: 900;
+}
+.select button {
+    background: #fff;
+    height: 42px;
+    border-radius: 5px;
+    border-color: rgba(0, 0, 0, 0.12);
+    border-width: 0 0 1px 0;
+    color: rgba(0, 0, 0, 0.73);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2px 0 1px 10px;
+    position: relative;
+    width: 100%;
+    z-index: 1;
+    outline: none;
+    overflow: hidden;
+}
+.select button:focus, .select button:hover {
+    background: rgba(255, 255, 255, .9);
+}
+.select button:after {
+    content: '▾';
+    float: right;
+    padding-right: 16px;
+}
+.select ul {
+    background-color: white;
+    cursor: default;
+    list-style: none;
+    line-height: 26px;
+    overflow: hidden;
+    margin: 0;
+    max-height: 0;
+    position: absolute;
+    padding: 0;
+    transform: translateY(-50%);
+    transition: all 0.15s cubic-bezier(0.35, 0, 0.25, 1);
+    width: 100%;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+.select ul li {
+    height: 48px;
+    margin: 0;
+    padding: 10px 10px;
+    outline: none;
+    overflow: hidden;
+}
+
+.select.active ul {
+    max-height: 200px;
+    overflow: auto;
+    z-index: 2;
+    transition: all 0.2s ease;
 }
 
 .momentum__greetings-wrapper {
@@ -291,9 +346,10 @@ option {
     border-right: 4px solid white;
 }
 .change {
-    margin: 14px 4px 0 4px;
+    margin: 0 4px;
     width: 30px;
     height: 30px;
+    cursor: pointer;
     display: block;
     align-self: center;
 }

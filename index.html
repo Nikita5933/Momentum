@@ -32,41 +32,44 @@
     <div class="momentum__clocks"></div>
     <div class="momentum__currencies">
         <div class="momentum__currencies-info">
-            <div class="momentum__info-currency">1 <span>USD</span> = <span>0.0000</span> <span>BYN</span></div>
-            <div class="momentum__info-currency">1 <span>BYN</span> = <span>0.0000</span> <span>USD</span></div>
+            <div class="momentum__info-currency">1 <span class="fromCurrency">USD</span> = <span>0.0000</span> <span class="toCurrency">BYN</span></div>
+            <div class="momentum__info-currency">1 <span class="toCurrency">BYN</span> = <span>0.0000</span> <span class="fromCurrency">USD</span></div>
             <div class="momentum__info-update">Last update: <span>2023-10-29 23:59:59 UTC</span></div>
         </div>
         <div class="momentum__currencies-selections">
             <div class="momentum__selections-amount">
-                <label for="amount">Amount</label>
-                <input class="amount" type="text" name="amount" id="amount">
+                <input placeholder="Amount" class="amount" type="text" name="amount">
             </div>
             <div class="momentum__selections-from">
-                <label for="from">From</label>
-                <select class="select" id="from" name="from">
-                    <option value="USD">USD</option>
-                    <option value="EUR">EUR</option>
-                    <option value="BYN">BYN</option>
-                    <option value="RUB">RUB</option>
-                    <option value="CNY">CNY</option>
-                </select>
+                <div class="select">
+                    <label for="id-from"><button>From</button></label>
+                    <ul id="id-from">
+                        <li id="fromUsd" class="active">USD</li>
+                        <li id="fromEur">EUR</li>
+                        <li id="fromByn">BYN</li>
+                        <li id="fromRub">RUB</li>
+                        <li id="fromCny">CNY</li>
+                    </ul>
+                </div>
             </div>
             <img class="change" src="assets/img/icons/arrow.svg" alt="change">
             <div class="momentum__selections-to">
-               <label for="to">To</label>
-                <select class="select" id="to" name="to">
-                    <option value="USD">USD</option>
-                    <option value="EUR">EUR</option>
-                    <option value="BYN">BYN</option>
-                    <option value="RUB">RUB</option>
-                    <option value="CNY">CNY</option>
-                </select>
+                <div class="select">
+                    <label for="id-to"><button>To</button></label>
+                    <ul id="id-to">
+                        <li id="toUsd">USD</li>
+                        <li id="toEur">EUR</li>
+                        <li id="toByn" class="active">BYN</li>
+                        <li id="toRub">RUB</li>
+                        <li id="toCny">CNY</li>
+                    </ul>
+                </div>
             </div>
-            <button class="momentum__selections-btn"><div class="submit"></div></button>
+            <button class="momentum__selections-submit"><div class="submit"></div></button>
         </div>
         <div class="momentum__currencies-output">
-            <div class="momentum__output-first"><span>1</span> <span>USD</span> = </div>
-            <div class="momentum__output-second"><span>0.0000</span> <span class="currTo">BYN</span></div>
+            <div class="momentum__output-first"><span>1</span> <span class="fromCurrency">USD</span> = </div>
+            <div class="momentum__output-second"><span>0.0000</span> <span class="currTo toCurrency">BYN</span></div>
         </div>
     </div>
 </div>
