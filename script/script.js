@@ -481,14 +481,6 @@ document.addEventListener('DOMContentLoaded', () => {
     })
     initWeather();
 
-    // fetch('https://api.currencyapi.com/v3/latest?apikey=cur_live_hGAkXQlAtUCtm6IPwsosNiAbtbAhPeNQTpnTPAW5&currencies=EUR%2CUSD%2CRUB%2CBYN')
-    //     .then(data => {
-    //         return data.json();
-    //     })
-    //     .then(res => {
-    //         console.log(res)
-    //     })
-
     // Currencies
 
     const select = document.querySelectorAll('.select');
@@ -498,6 +490,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const selectBtnTo = select[1].querySelector('label button');
     const currencyFrom = document.querySelectorAll('.fromCurrency');
     const currencyTo = document.querySelectorAll('.toCurrency');
+    const cFirst = document.querySelector('.currencyFirst');
+    const cSecond = document.querySelector('.currencySecond');
+    const lUpdate = document.querySelector('.lastUpdate');
+
 
 
     select.forEach(item => {
@@ -507,6 +503,7 @@ document.addEventListener('DOMContentLoaded', () => {
     })
 
     selectLiFrom.forEach(item => {
+
         item.addEventListener('click', () => {
             const text = item.textContent;
             item.classList.add('active');
@@ -516,6 +513,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             })
             selectBtnFrom.innerText = text;
+
             selectBtnFrom.style.cssText = `background-image: url('assets/img/${text}.png');
                                         background-size: contain;
                                         background-repeat: no-repeat;
@@ -523,6 +521,9 @@ document.addEventListener('DOMContentLoaded', () => {
             currencyFrom.forEach(item => {
                 item.textContent = text;
             });
+            const toSelectCurrency = document.querySelector('#id-to li.active').textContent;
+            // currUpdate(text, toSelectCurrency);
+
         })
     })
     selectLiTo.forEach(item => {
@@ -535,7 +536,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             })
             selectBtnTo.innerText = text;
-            console.log(text)
             selectBtnTo.style.cssText = `background-image: url('assets/img/${text}.png');
                                         background-size: contain;
                                         background-repeat: no-repeat;
@@ -543,6 +543,46 @@ document.addEventListener('DOMContentLoaded', () => {
             currencyTo.forEach(item => {
                 item.textContent = text;
             })
+            const baseCurrency = document.querySelector('#id-from li.active').textContent;
+            // currUpdate(baseCurrency, text);
+
         })
     })
+
+    function currInit() {
+        fetch('https://api.currencyapi.com/v3/latest?apikey=cur_live_hGAkXQlAtUCtm6IPwsosNiAbtbAhPeNQTpnTPAW5&currencies=USD&base_currency=BYN')
+            .then(data => {
+                if (data.ok) return data.json();
+            })
+            .then(({data}) => {
+
+                cSecond.innerText = data.USD.value.toFixed(5);
+            })
+        fetch('https://api.currencyapi.com/v3/latest?apikey=cur_live_hGAkXQlAtUCtm6IPwsosNiAbtbAhPeNQTpnTPAW5&currencies=BYN')
+            .then(data => {
+                if (data.ok) return data.json();
+            })
+            .then(({data, meta}) => {
+                lUpdate.innerText = meta['last_updated_at'].replace(/Z|T/ig, ' ') + 'UTC';
+                cFirst.innerText = data.BYN.value.toFixed(5);
+            })
+    }
+    function currUpdate(base, curr) {
+        fetch(`https://api.currencyapi.com/v3/latest?apikey=cur_live_hGAkXQlAtUCtm6IPwsosNiAbtbAhPeNQTpnTPAW5&currencies=EUR%2CUSD%2CBYN%2CRUB%2CCNY&base_currency=${base}`)
+            .then(data => {
+                if (data.ok) return data.json();
+            })
+            .then(({data}) => {
+                cFirst.innerText = data[curr].value.toFixed(5);
+            })
+        fetch(`https://api.currencyapi.com/v3/latest?apikey=cur_live_hGAkXQlAtUCtm6IPwsosNiAbtbAhPeNQTpnTPAW5&currencies=EUR%2CUSD%2CBYN%2CRUB%2CCNY&base_currency=${curr}`)
+            .then(data => {
+                if (data.ok) return data.json();
+            })
+            .then(({data}) => {
+                cSecond.innerText = data[base].value.toFixed(5);
+            })
+    }
+    // currInit();
 })
+
