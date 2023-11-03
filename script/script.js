@@ -493,6 +493,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const cFirst = document.querySelector('.currencyFirst');
     const cSecond = document.querySelector('.currencySecond');
     const lUpdate = document.querySelector('.lastUpdate');
+    const cInput = document.querySelector('.amount');
+    const inputChange = document.querySelector('.inputChange');
+    const currentChange = document.querySelector('.currentChange');
+    const changeBtn = document.querySelector('.change');
 
 
 
@@ -501,7 +505,13 @@ document.addEventListener('DOMContentLoaded', () => {
             item.classList.toggle('active');
         })
     })
-
+    function changeBtnFn(btn,text) {
+        btn.innerText = text;
+        btn.style.cssText = `background-image: url('assets/img/${text}.png');
+                                        background-size: contain;
+                                        background-repeat: no-repeat;
+                                        background-position: 55% 50%;`;
+    }
     selectLiFrom.forEach(item => {
 
         item.addEventListener('click', () => {
@@ -512,17 +522,22 @@ document.addEventListener('DOMContentLoaded', () => {
                     elem.classList.remove('active');
                 }
             })
-            selectBtnFrom.innerText = text;
-
-            selectBtnFrom.style.cssText = `background-image: url('assets/img/${text}.png');
-                                        background-size: contain;
-                                        background-repeat: no-repeat;
-                                        background-position: 55% 50%;`;
+            changeBtnFn(selectBtnFrom,text);
             currencyFrom.forEach(item => {
                 item.textContent = text;
             });
             const toSelectCurrency = document.querySelector('#id-to li.active').textContent;
-            // currUpdate(text, toSelectCurrency);
+            currUpdate(text, toSelectCurrency);
+            if (cInput.value) {
+                fetch(`https://api.currencyapi1.com/v3/latest?apikey=cur_live_hGAkXQlAtUCtm6IPwsosNiAbtbAhPeNQTpnTPAW5&currencies=${toSelectCurrency}&base_currency=${text}`)
+                    .then(resp => {
+                        if (resp.ok) return resp.json();
+                        return Promise.reject();
+                    })
+                    .then(({data}) => {
+                        currentChange.innerText = (data[toSelectCurrency].value * cInput.value).toFixed(2);
+                    })
+            }
 
         })
     })
@@ -535,54 +550,154 @@ document.addEventListener('DOMContentLoaded', () => {
                     elem.classList.remove('active');
                 }
             })
-            selectBtnTo.innerText = text;
-            selectBtnTo.style.cssText = `background-image: url('assets/img/${text}.png');
-                                        background-size: contain;
-                                        background-repeat: no-repeat;
-                                        background-position: 55% 50%;`;
+            changeBtnFn(selectBtnTo,text)
             currencyTo.forEach(item => {
                 item.textContent = text;
             })
             const baseCurrency = document.querySelector('#id-from li.active').textContent;
-            // currUpdate(baseCurrency, text);
-
+            currUpdate(baseCurrency, text);
+            if (cInput.value) {
+                fetch(`https://api.currencyapi1.com/v3/latest?apikey=cur_live_hGAkXQlAtUCtm6IPwsosNiAbtbAhPeNQTpnTPAW5&currencies=${text}&base_currency=${baseCurrency}`)
+                    .then(resp => {
+                        if (resp.ok) return resp.json();
+                        return Promise.reject();
+                    })
+                    .then(({data}) => {
+                        currentChange.innerText = (data[text].value * cInput.value).toFixed(2);
+                    })
+            }
         })
     })
 
     function currInit() {
-        fetch('https://api.currencyapi.com/v3/latest?apikey=cur_live_hGAkXQlAtUCtm6IPwsosNiAbtbAhPeNQTpnTPAW5&currencies=USD&base_currency=BYN')
+        fetch('https://api.currencyapi1.com/v3/latest?apikey=cur_live_hGAkXQlAtUCtm6IPwsosNiAbtbAhPeNQTpnTPAW5&currencies=USD&base_currency=BYN')
             .then(data => {
                 if (data.ok) return data.json();
             })
             .then(({data}) => {
-
-                cSecond.innerText = data.USD.value.toFixed(5);
+                cFirst.innerText = data.USD.value.toFixed(5);
             })
-        fetch('https://api.currencyapi.com/v3/latest?apikey=cur_live_hGAkXQlAtUCtm6IPwsosNiAbtbAhPeNQTpnTPAW5&currencies=BYN')
+            .catch(err => {
+                console.log(err)
+                lUpdate.parentNode.innerText = `Server Error !`;
+            })
+        fetch('https://api.currencyapi1.com/v3/latest?apikey=cur_live_hGAkXQlAtUCtm6IPwsosNiAbtbAhPeNQTpnTPAW5&currencies=BYN')
             .then(data => {
                 if (data.ok) return data.json();
             })
             .then(({data, meta}) => {
                 lUpdate.innerText = meta['last_updated_at'].replace(/Z|T/ig, ' ') + 'UTC';
-                cFirst.innerText = data.BYN.value.toFixed(5);
+                cSecond.innerText = data.BYN.value.toFixed(5);
+            })
+            .catch(err => {
+                console.log(err)
+                lUpdate.parentNode.innerText = `Server Error !`;
             })
     }
     function currUpdate(base, curr) {
-        fetch(`https://api.currencyapi.com/v3/latest?apikey=cur_live_hGAkXQlAtUCtm6IPwsosNiAbtbAhPeNQTpnTPAW5&currencies=EUR%2CUSD%2CBYN%2CRUB%2CCNY&base_currency=${base}`)
+        fetch(`https://api.currencyapi1.com/v3/latest?apikey=cur_live_hGAkXQlAtUCtm6IPwsosNiAbtbAhPeNQTpnTPAW5&currencies=EUR%2CUSD%2CBYN%2CRUB%2CCNY&base_currency=${base}`)
             .then(data => {
                 if (data.ok) return data.json();
             })
             .then(({data}) => {
                 cFirst.innerText = data[curr].value.toFixed(5);
             })
-        fetch(`https://api.currencyapi.com/v3/latest?apikey=cur_live_hGAkXQlAtUCtm6IPwsosNiAbtbAhPeNQTpnTPAW5&currencies=EUR%2CUSD%2CBYN%2CRUB%2CCNY&base_currency=${curr}`)
+            .catch(err => {
+                console.log(err)
+                cFirst.parentNode.innerText = `Server Error !`;
+            })
+        fetch(`https://api.currencyapi1.com/v3/latest?apikey=cur_live_hGAkXQlAtUCtm6IPwsosNiAbtbAhPeNQTpnTPAW5&currencies=EUR%2CUSD%2CBYN%2CRUB%2CCNY&base_currency=${curr}`)
             .then(data => {
                 if (data.ok) return data.json();
             })
             .then(({data}) => {
                 cSecond.innerText = data[base].value.toFixed(5);
             })
+            .catch(err => {
+                console.log(err)
+                cSecond.parentNode.innerText = `Server Error !`;
+            })
     }
-    // currInit();
+
+    cInput.addEventListener('focus', async e => {
+        const from = document.querySelector('#id-from li.active').textContent;
+        const to = document.querySelector('#id-to li.active').textContent;
+
+       await fetch(`https://api.currencyapi1.com/v3/latest?apikey=cur_live_hGAkXQlAtUCtm6IPwsosNiAbtbAhPeNQTpnTPAW5&currencies=${to}&base_currency=${from}`)
+            .then(resp => {
+                if (resp.ok) return resp.json();
+                return Promise.reject();
+            })
+            .then(({data}) => {
+                let value;
+                cInput.addEventListener('keydown',e => {
+                    if (e.keyCode === 13 || e.keyCode === 27) {
+                        e.target.blur()
+                    }
+                    if (e.target.value.at(-2) === '.') {
+                        console.log(true)
+                        if (e.keyCode === 8 || e.keyCode === 46 || e.keyCode === 37 || e.keyCode === 39) {
+                            return;
+                        }
+                        e.preventDefault();
+                    }
+                })
+               cInput.addEventListener('input',e => {
+                   if (e.target.value === '') {
+                       value = 0;
+                       inputChange.innerText = value;
+                       currentChange.innerText = '0.00';
+                       return;
+                   }
+                   value = e.target.value
+                   inputChange.innerText = value;
+                   currentChange.innerText = (data[to].value * value).toFixed(2);
+                })
+            })
+            .catch(err => {
+                console.log(err)
+                inputChange.parentNode.innerText = `Server Error!`;
+            })
+    })
+    changeBtn.addEventListener('click', () => {
+        const textTo = currencyTo[2].innerText;
+        const textFrom = currencyFrom[2].innerText;
+        const fromActive = select[0].querySelector('.select ul > li.active');
+        const toActive = select[1].querySelector('.select ul > li.active');
+        selectLiFrom.forEach(item => {
+            if (item.innerText === toActive.innerText) {
+                item.classList.add('active')
+                return;
+            }
+            item.classList.remove('active')
+        })
+        selectLiTo.forEach(item => {
+            if (item.innerText === fromActive.innerText) {
+                item.classList.add('active')
+                return;
+            }
+            item.classList.remove('active')
+        })
+        currencyFrom[2].innerText = textTo;
+        currencyTo[2].innerText = textFrom;
+        changeBtnFn(selectBtnFrom,textTo);
+        changeBtnFn(selectBtnTo,textFrom);
+        if (cInput.value) {
+            fetch(`https://api.currencyapi1.com/v3/latest?apikey=cur_live_hGAkXQlAtUCtm6IPwsosNiAbtbAhPeNQTpnTPAW5&currencies=${textFrom}&base_currency=${textTo}`)
+                .then(resp => {
+                    if (resp.ok) return resp.json();
+                })
+                .then(({data}) => {
+                    console.log(data)
+                    currentChange.innerText = (data[textFrom].value * cInput.value).toFixed(2);
+                })
+                .catch(err => {
+                    console.log(err)
+                    inputChange.parentNode.innerText = `Server Error !`;
+                })
+        }
+    });
+
+    currInit();
 })
 
