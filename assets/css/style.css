@@ -63,7 +63,7 @@ body, html {
     padding: 12px;
 }
 .momentum__date {
-    background-color: rgba(255,215,0,.5);
+    background-color: rgba(168, 16, 76, 0.6);
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -78,6 +78,7 @@ body, html {
 .momentum__date-date{
     font-size: 1.875rem;
     margin-bottom: 0.9rem;
+    color: white;
 }
 .momentum__date-greetings {
     font-size: 1.25rem;
@@ -90,7 +91,7 @@ body, html {
     text-align: center;
 }
 .momentum__weather {
-    background-color: rgba(150, 43, 218, .5);
+    background-color: rgba(128, 0, 255, .6);
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -142,12 +143,59 @@ body, html {
     font-style: italic;
     font-weight: 300;
 }
-.momentum__clocks {
-    background-color: dimgray;
+.momentum__todo {
+    background-color: rgba(71, 167, 106, 0.6);
+    position: relative;
+}
+.momentum__todo-field {
+    width: 100%;
+    display: flex;
+    gap: 10px;
+    padding-top: 8px;
+}
+.momentum__todo-add {
+    width: 70%;
+    height: 34px;
+    padding: 5px 12px;
+    outline: none;
+    box-sizing: border-box;
+    border-radius: 5px;
+    border: none;
+}
+.momentum__todo-btn {
+    flex-grow: 1;
+    margin-right: 45px;
+    align-items: center;
+    background-image: linear-gradient(135deg, #f34079 40%, #fc894d);
+    border: none;
+    border-radius: 5px;
+    box-sizing: border-box;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    font-weight: 600;
+    height: 34px;
+    justify-content: center;
+    letter-spacing: .4px;
+    max-width: 100%;
+    padding: 0 20px;
+    text-transform: uppercase;
+}
+.momentum__todo-btn:active, .momentum__todo-btn:hover {
+    outline: 0;
+}
+
+.momentum__todo-btn span {
+    transition: transform .2s, opacity .2s;
+}
+
+.momentum__todo-btn:hover span {
+    transform: scale(.9);
+    opacity: .75;
 }
 
 .momentum__currencies {
-    background-color: rgba(13, 13, 232, .5);
+    background-color: rgba(0, 71, 171, .6);
     color: white;
 }
 
@@ -297,6 +345,7 @@ body, html {
 }
 .momentum__date-span {
     font-size: 20px;
+    color: white;
     margin-left: 10px;
     min-width: 12px;
     padding: 5px;
@@ -314,6 +363,55 @@ body, html {
 
 .momentum__date-focus input {
     text-align: center;
+}
+.settings {
+    position: absolute;
+    outline: none;
+    background-color: rgba(71, 167, 106, 1);
+    border-radius: 20px;
+    box-shadow: 0 0 5px 4px white;
+    width: 75%;
+    height: 75%;
+    right: 0;
+    top: 20%;
+    margin: 0 auto;
+    display: none;
+    flex-direction: column;
+    left: 0;
+    text-align: center;
+    gap: 10px;
+}
+.settings__text {
+    color: white;
+    font-size: 1.6rem;
+}
+.settings-active {
+    display: flex;
+}
+.settings__btn {
+    max-width: 30%;
+    text-transform: none;
+    flex-grow: 0;
+    height: 40px;
+    margin: 0 auto;
+}
+.settings__close {
+    align-self: flex-end;
+    width: 30px;
+    height: 30px;
+    display: block;
+    margin: 8px 12px 0 0;
+    cursor: pointer;
+}
+.settings__img {
+    width: 34px;
+    height: 34px;
+    cursor: pointer;
+    display: block;
+    transition: transform .2s;
+}
+.settings__img:hover {
+transform: scale(.9);
 }
 .refresh {
     width: 40px;
@@ -366,6 +464,14 @@ body, html {
 @media screen and (max-width: 767px) {
     html {
         font-size: 13px;
+    }
+    .momentum__todo-btn {
+        font-size: 15px;
+        height: 50px;
+    }
+
+    .momentum__todo-btn span {
+        line-height: 50px;
     }
     .momentum__date {
         min-height: 300px;

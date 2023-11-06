@@ -29,7 +29,20 @@
         <div class="momentum__weather-block">
             </div>
     </div>
-    <div class="momentum__clocks"></div>
+    <div id="toDoWrapper" class="momentum__todo">
+        <div class="momentum__todo-field">
+            <img id="settings" class="settings__img" src="assets/img/icons/settings.svg" alt="settings">
+            <input class="momentum__todo-add" placeholder="Add task" type="text" name="task" id="task">
+            <button class="momentum__todo-btn"><span>Add</span></button>
+        </div>
+    <div tabindex="1" id="settingsWrapper" class="settings settings-active">
+        <img id="settingsClose" class="settings__close" src="assets/img/icons/close.svg" alt="close window">
+        <div class="settings__text">Want to save your to-do list?</div>
+        <button class="settings__btn momentum__todo-btn"><span>Save</span></button>
+        <div class="settings__text">Want to reset your to-do list?</div>
+        <button class="settings__btn momentum__todo-btn"><span>Reset</span></button>
+    </div>
+    </div>
     <div class="momentum__currencies">
         <div class="momentum__currencies-info">
             <div class="momentum__info-currency">1 <span class="fromCurrency">USD</span> = <span class="currencyFirst">0.0000</span> <span class="toCurrency">BYN</span></div>

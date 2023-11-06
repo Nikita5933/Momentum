@@ -634,8 +634,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (e.keyCode === 13 || e.keyCode === 27) {
                         e.target.blur()
                     }
-                    if (e.target.value.at(-2) === '.') {
-                        console.log(true)
+                    if (e.target.value.at(-2) === '.' || e.target.value.length >= 12) {
                         if (e.keyCode === 8 || e.keyCode === 46 || e.keyCode === 37 || e.keyCode === 39) {
                             return;
                         }
@@ -699,5 +698,42 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     currInit();
+
+    // To-do list
+    // Settings
+
+    const settings = document.getElementById('settings');
+    const settingsWrapper = document.getElementById('settingsWrapper');
+    const settingsClose = document.getElementById('settingsClose');
+    const toDoWrapper = document.getElementById('toDoWrapper');
+
+
+    // settings.addEventListener('click', () => {
+    //     settingsWrapper.classList.toggle('settings-active');
+    //     settingsWrapper.focus();
+    // });
+    settingsClose.addEventListener('click', () => {
+        settingsWrapper.classList.remove('settings-active');
+
+    });
+    settingsWrapper.addEventListener('keydown', e => {
+        if(e.keyCode === 27) {
+            settingsWrapper.classList.remove('settings-active');
+        }
+    })
+    toDoWrapper.addEventListener('click', e => {
+        const target = settingsWrapper;
+        console.log(settings)
+        if (e.target !== target) {
+            settingsWrapper.classList.remove('settings-active');
+        }
+        if (e.target === settings) {
+            if (settingsWrapper.classList.contains('settings-active')) {
+                settingsWrapper.classList.remove('settings-active');
+            }
+            settingsWrapper.classList.add('settings-active');
+            settingsWrapper.focus();
+        }
+    })
 })
 
