@@ -35,12 +35,22 @@
             <input class="momentum__todo-add" placeholder="Add task" type="text" name="task" id="task">
             <button class="momentum__todo-btn"><span>Add</span></button>
         </div>
-    <div tabindex="1" id="settingsWrapper" class="settings settings-active">
-        <img id="settingsClose" class="settings__close" src="assets/img/icons/close.svg" alt="close window">
-        <div class="settings__text">Want to save your to-do list?</div>
-        <button class="settings__btn momentum__todo-btn"><span>Save</span></button>
-        <div class="settings__text">Want to reset your to-do list?</div>
-        <button class="settings__btn momentum__todo-btn"><span>Reset</span></button>
+        <div class="momentum__todo-pending">
+            <div class="momentum__pending-wrapper"></div>
+            <span>Pending</span>
+        </div>
+        <div class="momentum__todo-completed">
+            <div class="momentum__completed-wrapper"></div>
+            <span>Completed</span>
+        </div>
+    <div tabindex="1" id="settingsWrapper" class="settings__overlay">
+        <div class="settings__wrapper">
+            <img id="settingsClose" class="settings__close" src="assets/img/icons/close.svg" alt="close window">
+            <div class="settings__text">Want to save your to-do list?</div>
+            <button class="settings__btn momentum__todo-btn"><span>Save</span></button>
+            <div class="settings__text">Want to reset your to-do list?</div>
+            <button class="settings__btn momentum__todo-btn"><span>Reset</span></button>
+        </div>
     </div>
     </div>
     <div class="momentum__currencies">

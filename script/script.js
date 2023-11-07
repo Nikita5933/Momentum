@@ -707,32 +707,32 @@ document.addEventListener('DOMContentLoaded', () => {
     const settingsClose = document.getElementById('settingsClose');
     const toDoWrapper = document.getElementById('toDoWrapper');
 
-
-    // settings.addEventListener('click', () => {
-    //     settingsWrapper.classList.toggle('settings-active');
-    //     settingsWrapper.focus();
-    // });
-    settingsClose.addEventListener('click', () => {
+     function fadeOut() {
         settingsWrapper.classList.remove('settings-active');
+        settingsWrapper.classList.add('settings-disable');
+        setTimeout(()=> {
+            settingsWrapper.style.visibility = 'hidden';
+        },501);
+    }
+    function fadeIn() {
+        settingsWrapper.style.visibility = 'visible';
+        settingsWrapper.classList.add('settings-active');
+        settingsWrapper.classList.remove('settings-disable');
+        settingsWrapper.focus();
+    }
 
-    });
+    settings.addEventListener('click', fadeIn.bind(null));
+    settingsClose.addEventListener('click',fadeOut.bind(null));
+
     settingsWrapper.addEventListener('keydown', e => {
         if(e.keyCode === 27) {
-            settingsWrapper.classList.remove('settings-active');
+            fadeOut();
         }
     })
+
     toDoWrapper.addEventListener('click', e => {
-        const target = settingsWrapper;
-        console.log(settings)
-        if (e.target !== target) {
-            settingsWrapper.classList.remove('settings-active');
-        }
-        if (e.target === settings) {
-            if (settingsWrapper.classList.contains('settings-active')) {
-                settingsWrapper.classList.remove('settings-active');
-            }
-            settingsWrapper.classList.add('settings-active');
-            settingsWrapper.focus();
+        if (e.target === settingsWrapper) {
+            fadeOut();
         }
     })
 })
