@@ -735,5 +735,130 @@ document.addEventListener('DOMContentLoaded', () => {
             fadeOut();
         }
     })
+
+    // To-do list
+
+    const tasksObj = {
+        pendingArray: [],
+        completedArray: []
+    };
+
+    const PENDING_LIST = 'pending';
+    const COMPLETED_LIST = 'completed';
+
+    const addTask = document.getElementById('task');
+    const addBtn = document.getElementById('addBtn');
+    const pendingTasks = document.getElementById('pendingWrapper');
+    const completedTasks = document.getElementById('completedWrapper');
+
+
+    addBtn.addEventListener('click', () => {
+        const value = addTask.value.trim();
+        if (value) {
+            tasksObj.pendingArray.push(value);
+            addTask.value = '';
+            updateList(PENDING_LIST);
+        }
+    })
+    addTask.addEventListener('keydown', (e) => {
+        if (e.keyCode === 13) {
+            const value = addTask.value.trim();
+            if (value) {
+                tasksObj.pendingArray.push(value);
+                addTask.value = '';
+                updateList(PENDING_LIST);
+            }
+            addTask.blur();
+        }
+        if (e.keyCode === 27) {
+            addTask.blur();
+        }
+    })
+
+    function taskRender(message, position, index) {
+        const task = `
+        <div class="task" data-type="${position}" data-index="${index}">
+                    <button class="ticket"></button>
+                    <p class="text">${message}</p>
+                    <input class="edit" type="text">
+                    <div class="task-buttons__wrapper">
+                        <button class="tool-button edit-btn"><img src="assets/img/icons/edit.svg" alt=""></button>
+                        <button class="tool-button save-btn"><img src="assets/img/icons/save.svg" alt=""></button>
+                        <button class="tool-button delete-btn"><img src="assets/img/icons/delete.svg" alt=""></button>
+                    </div>
+                </div>
+        `;
+        switch (position) {
+            case PENDING_LIST:
+                pendingTasks.insertAdjacentHTML('beforeend', task);
+                break;
+            case COMPLETED_LIST:
+                completedTasks.insertAdjacentHTML('beforeend', task);
+                break;
+        }
+    }
+    function updateList(list) {
+        switch (list) {
+            case PENDING_LIST:
+                pendingTasks.innerHTML = '';
+                tasksObj.pendingArray.forEach((item, ind) => {
+                    taskRender(item, PENDING_LIST, ind);
+                })
+                updateEvents(PENDING_LIST);
+                break;
+            case COMPLETED_LIST:
+                completedTasks.innerHTML = '';
+                tasksObj.completedArray.forEach((item, ind) => {
+                    taskRender(item, COMPLETED_LIST, ind)
+                })
+                updateEvents(COMPLETED_LIST);
+        }
+    }
+
+    function updateEvents(list) {
+        const currentList = document.getElementById(`${list}Wrapper`);
+        const tasks = currentList.querySelectorAll('.task');
+
+        tasks.forEach(item => {
+            const text = item.querySelector('.text');
+            const edit = item.querySelector('.edit');
+            const saveBtn = item.querySelector('.save-btn');
+            const editBtn = item.querySelector('.edit-btn');
+            const deleteBtn = item.querySelector('.delete-btn');
+
+            edit.addEventListener('keydown', (e) => {
+                if (e.keyCode === 13) {
+                    editBtn.style.display = 'block';
+                    saveBtn.style.display = 'none';
+                    text.style.display = 'block';
+                    edit.style.display = 'none';
+                    text.innerHTML = edit.value;
+                    tasksObj[`${list}Array`][+item.dataset.index] = edit.value;
+                }
+                if (e.keyCode === 27) {
+                    edit.blur();
+                }
+            })
+            editBtn.addEventListener('click', () => {
+                saveBtn.style.display = 'block';
+                editBtn.style.display = 'none';
+                text.style.display = 'none';
+                edit.style.display = 'block';
+                edit.value = tasksObj[`${list}Array`][+item.dataset.index];
+            });
+            saveBtn.addEventListener('click', () => {
+                editBtn.style.display = 'block';
+                saveBtn.style.display = 'none';
+                text.style.display = 'block';
+                edit.style.display = 'none';
+                text.innerHTML = edit.value;
+                tasksObj[`${list}Array`][+item.dataset.index] = edit.value;
+            })
+            deleteBtn.addEventListener('click', () => {
+                tasksObj[`${list}Array`].splice(+item.dataset.index, 1);
+                updateList(list);
+            })
+        })
+    }
 })
 
