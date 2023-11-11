@@ -845,6 +845,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 text.style.display = 'none';
                 edit.style.display = 'block';
                 edit.value = tasksObj[`${list}Array`][+item.dataset.index];
+                edit.focus();
             });
             saveBtn.addEventListener('click', () => {
                 editBtn.style.display = 'block';
