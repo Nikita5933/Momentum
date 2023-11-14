@@ -776,7 +776,7 @@ document.addEventListener('DOMContentLoaded', () => {
     })
 
     function taskRender(message, position, index) {
-        const task = `
+        const taskPend = `
         <div class="task" data-type="${position}" data-index="${index}">
                     <button class="ticket"></button>
                     <p class="text">${message}</p>
@@ -788,12 +788,24 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                 </div>
         `;
+        const taskComp = `
+        <div class="task" data-type="${position}" data-index="${index}">
+                    <button class="ticket ticket-active"></button>
+                    <p class="text text-active">${message}</p>
+                    <input class="edit" type="text">
+                    <div class="task-buttons__wrapper">
+                        <button class="tool-button edit-btn"><img src="assets/img/icons/edit.svg" alt=""></button>
+                        <button class="tool-button save-btn"><img src="assets/img/icons/save.svg" alt=""></button>
+                        <button class="tool-button delete-btn"><img src="assets/img/icons/delete.svg" alt=""></button>
+                    </div>
+                </div>
+        `;
         switch (position) {
             case PENDING_LIST:
-                pendingTasks.insertAdjacentHTML('beforeend', task);
+                pendingTasks.insertAdjacentHTML('beforeend', taskPend);
                 break;
             case COMPLETED_LIST:
-                completedTasks.insertAdjacentHTML('beforeend', task);
+                completedTasks.insertAdjacentHTML('beforeend', taskComp);
                 break;
         }
     }
@@ -809,7 +821,7 @@ document.addEventListener('DOMContentLoaded', () => {
             case COMPLETED_LIST:
                 completedTasks.innerHTML = '';
                 tasksObj.completedArray.forEach((item, ind) => {
-                    taskRender(item, COMPLETED_LIST, ind)
+                    taskRender(item, COMPLETED_LIST, ind);
                 })
                 updateEvents(COMPLETED_LIST);
         }
@@ -825,6 +837,22 @@ document.addEventListener('DOMContentLoaded', () => {
             const saveBtn = item.querySelector('.save-btn');
             const editBtn = item.querySelector('.edit-btn');
             const deleteBtn = item.querySelector('.delete-btn');
+            const ticket = item.querySelector('.ticket');
+
+            ticket.addEventListener('click', (e) => {
+                if (list === 'completed') {
+                    console.log(list)
+                    let elem = tasksObj[`${COMPLETED_LIST}Array`].splice(+item.dataset.index, 1);
+                    tasksObj.pendingArray.unshift(elem);
+                    updateList(PENDING_LIST);
+                    updateList(COMPLETED_LIST);
+                    return;
+                }
+                let elem = tasksObj[`${PENDING_LIST}Array`].splice(+item.dataset.index, 1);
+                tasksObj.completedArray.unshift(elem);
+                updateList(COMPLETED_LIST);
+                updateList(PENDING_LIST);
+            })
 
             edit.addEventListener('keydown', (e) => {
                 if (e.keyCode === 13) {
