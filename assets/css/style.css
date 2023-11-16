@@ -170,20 +170,22 @@ body, html {
     flex-shrink: 0;
     max-width: 30px;
     height: 30px;
+    background-color: transparent;
     border-radius: 50%;
     cursor: pointer;
     border: 2px solid black;
     transition: opacity .2s;
 }
 .ticket:hover {
-    opacity: .8;
+    opacity: .5;
 }
-.ticket-active {
+.task-completed .ticket {
     background: url('../img/icons/check.svg') no-repeat;
     background-size: cover;
 }
-.ticket-active:hover {
-    opacity: .7;
+.task-completed .text {
+    text-decoration: line-through;
+    opacity: .5;
 }
 .text {
     flex-grow: 1;
@@ -195,10 +197,7 @@ body, html {
     font-weight: 600;
     align-self: center;
 }
-.text-active {
-    text-decoration: line-through;
-    opacity: .6;
-}
+
 .task {
     display: flex;
     margin: 8px;

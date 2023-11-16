@@ -738,7 +738,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // To-do list
 
-    const tasksObj = {
+    let tasksObj = {
         pendingArray: [],
         completedArray: []
     };
@@ -776,8 +776,8 @@ document.addEventListener('DOMContentLoaded', () => {
     })
 
     function taskRender(message, position, index) {
-        const taskPend = `
-        <div class="task" data-type="${position}" data-index="${index}">
+        const task = `
+        <div class="task ${position === COMPLETED_LIST ? 'task-completed' : ''}" data-type="${position}" data-index="${index}">
                     <button class="ticket"></button>
                     <p class="text">${message}</p>
                     <input class="edit" type="text">
@@ -788,44 +788,21 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                 </div>
         `;
-        const taskComp = `
-        <div class="task" data-type="${position}" data-index="${index}">
-                    <button class="ticket ticket-active"></button>
-                    <p class="text text-active">${message}</p>
-                    <input class="edit" type="text">
-                    <div class="task-buttons__wrapper">
-                        <button class="tool-button edit-btn"><img src="assets/img/icons/edit.svg" alt=""></button>
-                        <button class="tool-button save-btn"><img src="assets/img/icons/save.svg" alt=""></button>
-                        <button class="tool-button delete-btn"><img src="assets/img/icons/delete.svg" alt=""></button>
-                    </div>
-                </div>
-        `;
         switch (position) {
             case PENDING_LIST:
-                pendingTasks.insertAdjacentHTML('beforeend', taskPend);
+                pendingTasks.insertAdjacentHTML('beforeend', task);
                 break;
             case COMPLETED_LIST:
-                completedTasks.insertAdjacentHTML('beforeend', taskComp);
+                completedTasks.insertAdjacentHTML('beforeend', task);
                 break;
         }
     }
     function updateList(list) {
-        switch (list) {
-            case PENDING_LIST:
-                pendingTasks.innerHTML = '';
-                tasksObj.pendingArray.forEach((item, ind) => {
-                    taskRender(item, PENDING_LIST, ind);
-                })
-                updateEvents(PENDING_LIST);
-                break;
-            case COMPLETED_LIST:
-                completedTasks.innerHTML = '';
-                tasksObj.completedArray.forEach((item, ind) => {
-                    taskRender(item, COMPLETED_LIST, ind);
-                })
-                updateEvents(COMPLETED_LIST);
-        }
+        list === PENDING_LIST ? pendingTasks.innerHTML = '' : completedTasks.innerHTML = '';
+        tasksObj[`${list}Array`].forEach((item, ind) => taskRender(item, list, ind));
+        updateEvents(list);
     }
+
 
     function updateEvents(list) {
         const currentList = document.getElementById(`${list}Wrapper`);
@@ -839,29 +816,26 @@ document.addEventListener('DOMContentLoaded', () => {
             const deleteBtn = item.querySelector('.delete-btn');
             const ticket = item.querySelector('.ticket');
 
+            function saveBtnFn(){
+                editBtn.style.display = 'block';
+                saveBtn.style.display = 'none';
+                text.style.display = 'block';
+                edit.style.display = 'none';
+                text.innerHTML = edit.value;
+                tasksObj[`${list}Array`][+item.dataset.index] = edit.value;
+            }
+
             ticket.addEventListener('click', (e) => {
-                if (list === 'completed') {
-                    console.log(list)
-                    let elem = tasksObj[`${COMPLETED_LIST}Array`].splice(+item.dataset.index, 1);
-                    tasksObj.pendingArray.unshift(elem);
-                    updateList(PENDING_LIST);
-                    updateList(COMPLETED_LIST);
-                    return;
-                }
-                let elem = tasksObj[`${PENDING_LIST}Array`].splice(+item.dataset.index, 1);
-                tasksObj.completedArray.unshift(elem);
-                updateList(COMPLETED_LIST);
-                updateList(PENDING_LIST);
+                const secondList = list === COMPLETED_LIST ? PENDING_LIST : COMPLETED_LIST;
+                const elem = tasksObj[`${list}Array`].splice(+item.dataset.index, 1);
+                tasksObj[`${secondList}Array`].unshift(elem);
+                updateList(list);
+                updateList(secondList);
             })
 
             edit.addEventListener('keydown', (e) => {
                 if (e.keyCode === 13) {
-                    editBtn.style.display = 'block';
-                    saveBtn.style.display = 'none';
-                    text.style.display = 'block';
-                    edit.style.display = 'none';
-                    text.innerHTML = edit.value;
-                    tasksObj[`${list}Array`][+item.dataset.index] = edit.value;
+                    saveBtnFn();
                 }
                 if (e.keyCode === 27) {
                     edit.blur();
@@ -876,12 +850,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 edit.focus();
             });
             saveBtn.addEventListener('click', () => {
-                editBtn.style.display = 'block';
-                saveBtn.style.display = 'none';
-                text.style.display = 'block';
-                edit.style.display = 'none';
-                text.innerHTML = edit.value;
-                tasksObj[`${list}Array`][+item.dataset.index] = edit.value;
+               saveBtnFn();
             })
             deleteBtn.addEventListener('click', () => {
                 tasksObj[`${list}Array`].splice(+item.dataset.index, 1);
@@ -889,5 +858,30 @@ document.addEventListener('DOMContentLoaded', () => {
             })
         })
     }
+
+    // To-do localStorage
+
+    const toDoSave = document.getElementById('to-doSave');
+    const toDoReset = document.getElementById('to-doReset');
+
+    toDoSave.addEventListener('click', () => {
+        if(tasksObj.pendingArray.length !== 0 || tasksObj.completedArray.length !== 0) {
+            localStorage.setItem('list', JSON.stringify(tasksObj));
+        }
+        fadeOut();
+
+    })
+    toDoReset.addEventListener('click', () => {
+        localStorage.setItem('list', '');
+        fadeOut();
+    })
+    function listInit() {
+        if (localStorage.getItem('list')) {
+            tasksObj = JSON.parse(localStorage.getItem('list'));
+            updateList(PENDING_LIST);
+            updateList(COMPLETED_LIST);
+        }
+    }
+    listInit();
 })
 
