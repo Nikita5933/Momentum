@@ -5,6 +5,8 @@ body {
     align-items: center;
     font-family: 'Lora', serif;
     background-attachment: fixed;
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
 }
 @keyframes opacityBgFrame {
     0% {
@@ -240,7 +242,7 @@ body, html {
     transform: scale(.9);
 }
 /* Scroll */
-::-webkit-scrollbar {
+::-webkit-scrollbar{
     width: 10px;
 }
 
@@ -450,7 +452,6 @@ body, html {
     margin: 0;
     padding: 10px 10px;
     outline: none;
-    overflow: hidden;
 }
 
 .select.active ul {
@@ -602,23 +603,52 @@ transform: scale(.9);
     }
 }
 
-
 .rotateClass {
     animation: refreshRotate .8s ease-out;
 }
 
 @media screen and (max-width: 1280px){
+    body,html {
+        height: initial;
+    }
+    .momentum > div:nth-child(even) {
+        border-radius: 0 100px 0 100px;
+    }
+    .momentum__date-greetings, .momentum__date-focus {
+        font-weight: 900;
+    }
     .momentum {
-        grid-template-columns: 1fr;
+        grid-template-columns: 90vw;
+        grid-template-rows: repeat(4, 1fr);
         align-content: flex-start;
+        gap: 40px;
+        height: 100%;
     }
     .momentum__date {
-        min-height: 350px;
-        max-height: 420px;
+        margin-top: 20px;
+        min-height: 400px;
+        align-items: center;
     }
     .momentum__weather-block {
         justify-content: center;
         gap: 10%;
+    }
+    .momentum__currencies {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 20px;
+        gap: 2rem;
+    }
+    .momentum__currencies-info {
+        row-gap: 1rem;
+    }
+    .momentum div.momentum__currencies {
+        padding-top: 4rem;
+    }
+    .momentum__currencies-output {
+        flex-grow: 1;
+        margin: 0;
+        justify-content: flex-end;
     }
 }
 
@@ -628,14 +658,36 @@ transform: scale(.9);
     }
     .momentum__todo-btn {
         font-size: 15px;
-        height: 50px;
+        height: 40px;
+    }
+    .momentum__todo-field {
+        width: 93%;
     }
 
+    .momentum__todo-add, .settings__img {
+        height: 100%;
+    }
+    .currentChange {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        display: inline-block;
+        line-height: 45px;
+        max-width: 80%;
+    }
+    .momentum__output-second {
+        width: 100%;
+        text-align: center;
+    }
     .momentum__todo-btn span {
         line-height: 50px;
     }
-    .momentum__date {
-        min-height: 300px;
+    .momentum__pending-wrapper, .momentum__completed-wrapper {
+        width: 77%;
+    }
+    .momentum__currencies-info {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
     }
     .momentum__weather-block {
         justify-content: center;
@@ -646,6 +698,79 @@ transform: scale(.9);
 @media screen and (max-width: 576px) {
     html {
         font-size: 11px;
+    }
+    .time {
+        width: 43px;
+    }
+    .momentum__todo-pending, .momentum__todo-completed{
+        flex-direction: column-reverse;
+    }
+    .momentum__todo-completed {
+        margin-bottom: 30px;
+    }
+    .momentum__todo-pending span, .momentum__todo-completed span {
+        position: static;
+        transform: initial;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+    .momentum__todo-field {
+        flex-wrap: wrap;
+    }
+    .momentum__todo-add, .settings__img {
+        height: 40px;
+    }
+    .momentum__todo-btn {
+        margin: 0 auto;
+    }
+    .momentum__todo-add {
+        width: 80%;
+    }
+    .momentum__todo-completed span {
+        right: -40px;
+    }
+    .momentum__todo-pending span {
+        right: -30px;
+    }
+    .momentum__pending-wrapper, .momentum__completed-wrapper {
+        width: 85%;
+    }
+    .settings__wrapper {
+        width: 380px;
+    }
+    .momentum__selections-amount {
+        width: 100%;
+    }
+    .amount {
+        max-width: initial;
+        width: 100%;
+    }
+    .momentum__output-second {
+        width: 90%;
+        font-size: 37px;
+    }
+    .currentChange {
+        line-height: 32px;
+    }
+    input, ul li {
+        font-size: 16px;
+    }
+
+    .momentum div.momentum__currencies {
+        padding-top: 2rem;
+    }
+    .momentum__currencies-selections {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+    .momentum__selections-from, .momentum__selections-to {
+        max-width: initial;
+    }
+    .select button {
+        background-image: none !important;
+        font-size: 16px;
     }
     .momentum__weather-block {
         flex-direction: column;
@@ -661,10 +786,14 @@ transform: scale(.9);
 
 @media screen and (max-width: 425px) {
     html {
-        font-size: 9px;
+        font-size: 10px;
     }
     .momentum__date {
+        justify-content: center;
         min-height: 250px;
+    }
+    .settings__wrapper {
+        width: 270px;
     }
 
     .momentum__date-date {
@@ -691,8 +820,9 @@ transform: scale(.9);
     }
 }
 @media screen and (max-width: 375px) {
+
     html  {
-        font-size: 8px;
+        font-size: 60%;
     }
     .momentum__date {
         min-height: 270px;
@@ -700,11 +830,16 @@ transform: scale(.9);
     .time {
         width: 28px;
     }
+    .momentum__date-date {
+        font-size: 2rem;
+    }
     .momentum {
         width: 92vw;
     }
     .momentum > div {
         padding: 7px;
     }
-
-}
+    .currentChange {
+        max-width: 100%;
+    }
+    }
