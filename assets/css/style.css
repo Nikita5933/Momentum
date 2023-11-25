@@ -478,7 +478,7 @@ body, html {
 }
 .momentum__date-focus + .momentum__date-span {
     margin: 10px 0 0 0;
-    width: 100%;
+    width: 95%;
     text-align: center;
 }
 .momentum__date-focus {

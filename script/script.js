@@ -697,7 +697,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // currInit();
+    currInit();
 
     // To-do list
     // Settings
@@ -884,4 +884,3 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     listInit();
 })
-
