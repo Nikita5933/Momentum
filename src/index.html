@@ -6,8 +6,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lora&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/normalize.css">
-    <link rel="stylesheet" href="assets/css/style.css">
     <title>Momentum</title>
 </head>
 <body>
@@ -22,7 +20,7 @@
             What will you focus on today?
         </div>
         <span data-focus class="momentum__date-span" contenteditable="true"></span>
-        <img class="refresh" src="assets/img/icons/refresh.svg" alt="refresh">
+        <img class="refresh" src=<%=require("./assets/img/icons/refresh.svg")%> alt="refresh">
     </div>
     <div class="momentum__weather">
         <div class="momentum__weather-city"><span contenteditable="true" class="city">[ENTER CITY]</span></div>
@@ -31,7 +29,7 @@
     </div>
     <div id="toDoWrapper" class="momentum__todo">
         <div class="momentum__todo-field">
-            <img id="settings" class="settings__img" src="assets/img/icons/settings.svg" alt="settings">
+            <img id="settings" class="settings__img" src=<%=require("./assets/img/icons/settings.svg")%> alt="settings">
             <input class="momentum__todo-add" placeholder="Add task" type="text" name="task" id="task">
             <button id="addBtn" class="momentum__todo-btn"><span>Add</span></button>
         </div>
@@ -47,10 +45,10 @@
         </div>
     <div tabindex="1" id="settingsWrapper" class="settings__overlay">
         <div class="settings__wrapper">
-            <img id="settingsClose" class="settings__close" src="assets/img/icons/close.svg" alt="close window">
-            <div class="settings__text">Do you want to save to-do list?</div>
+            <img id="settingsClose" class="settings__close" src=<%=require("./assets/img/icons/close.svg")%> alt="close window">
+            <div class="settings__text">Do you want to save a to-do list?</div>
             <button id="to-doSave" class="settings__btn momentum__todo-btn"><span>Save</span></button>
-            <div class="settings__text">Do you want to reset to-do list?</div>
+            <div class="settings__text">Do you want to reset a to-do list?</div>
             <button id="to-doReset" class="settings__btn momentum__todo-btn"><span>Reset</span></button>
         </div>
     </div>
@@ -77,7 +75,7 @@
                     </ul>
                 </div>
             </div>
-            <img class="change" src="assets/img/icons/arrow.svg" alt="change">
+            <img class="change" src=<%=require("./assets/img/icons/arrow.svg")%> alt="change">
             <div class="momentum__selections-to">
                 <div class="select">
                     <label for="id-to"><button>To</button></label>
@@ -97,6 +95,6 @@
         </div>
     </div>
 </div>
-<script src="script/script.js"></script>
+<script src="script/script.ts"></script>
 </body>
 </html>
