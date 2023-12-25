@@ -38,6 +38,7 @@ export interface IWeather{
     weather:{IWeatherWeather},
     wind:IWindWeather
 }
+
 export interface IWeatherObj {
     desc:string,
     humidity:number,

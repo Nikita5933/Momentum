@@ -1,3 +1,4 @@
+
 document.addEventListener('DOMContentLoaded', () => {
     const time = document.querySelector('.momentum__date-time');
     const date = <HTMLElement>document.querySelector('.momentum__date-date');
@@ -132,6 +133,28 @@ document.addEventListener('DOMContentLoaded', () => {
         saveToLocalStorage(backup, title.textContent);
     }
 
+    // IndexedDB
+
+    let db:IDBDatabase;
+    function initDb() {
+        indexedDB.deleteDatabase('testPics');
+        let request = indexedDB.open('testPics', 1);
+
+        request.onerror = function() {
+            console.error('Unable to open database.');
+        }
+
+        request.onsuccess = function() {
+            db = request.result;
+            console.log('db opened');
+        }
+
+        request.onupgradeneeded = function() {
+            db = request.result;
+            db.createObjectStore('cachedForms', {keyPath:'id', autoIncrement: true});
+        }
+    }
+    initDb();
     function changeTitle(e:KeyboardEvent, nameOfTitle:string, backup:string) {
         const elem = e.target as HTMLSpanElement;
         if (e.keyCode === 13) {
@@ -172,41 +195,68 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // API background image
 
-    function backgroundImage(api:string, initFlag:boolean) {
+    function  backgroundIndexedImageInit(api:string) {
+       for (let i = 0; i < 14; i++) {
+           fetch(api,{ headers: { 'X-Api-Key': 'LIZy/oRMSBzGuJGljz/ePA==z2C33S6Tv8rW4nzN', 'Accept': 'image.jpg'}})
+               .then(data => {
+                   data.text().then(d => {
+                       let ob = {
+                           created:new Date(),
+                           data:d
+                       };
+                       let trans = db.transaction(['cachedForms'], 'readwrite');
+                       let addReq = trans.objectStore('cachedForms').add(ob);
+
+                       addReq.onerror = function(e) {
+                           console.log('error storing data');
+                           console.error(e);
+                       }
+                   })
+               })
+               .catch(err => {
+                   console.log(err)
+               })
+       }
+    }
+    function backgroundImageInit(api:string) {
         fetch(api,{ headers: { 'X-Api-Key': 'LIZy/oRMSBzGuJGljz/ePA==z2C33S6Tv8rW4nzN', 'Accept': 'image.jpg'}})
-            .then(data => {
-                data.text().then(d => {
-                    const img = document.createElement('img');
-                    img.src = `data:image/png;base64,${d}`;
-                    img.addEventListener('load', () => {
-                        if (initFlag) {
-                            document.body.style.backgroundImage = `url("${img.src}")`;
-                            document.body.style.backgroundRepeat = 'no-repeat';
-                        } else if (!initFlag) {
-                            const backgroundFrame = document.querySelector('.background');
-                            document.body.style.backgroundColor = 'rgba(0,0,0,.1)';
-                            document.body.style.backgroundImage = `url("${img.src}")`;
-                            document.body.style.backgroundRepeat = 'no-repeat';
-                            backgroundFrame.classList.add('opacityBG');
-                            setTimeout(() => {
-                                backgroundFrame.classList.remove('opacityBG');
-                            }, 400)
+                .then(data => {
+                    data.text().then(d => {
+                        let ob = {
+                            created:new Date(),
+                            data:d
+                        };
+                        let trans = db.transaction(['cachedForms'], 'readwrite');
+                        let addReq = trans.objectStore('cachedForms').add(ob);
+
+                        addReq.onerror = function(e) {
+                            console.log('error storing data');
+                            console.error(e);
                         }
 
+                        trans.oncomplete = function() {
+                            console.log('data stored');
+                        }
+                            const img = document.createElement('img');
+                            img.src = `data:image/png;base64,${d}`;
+                            img.addEventListener('load', () => {
+                                document.body.style.backgroundImage = `url("${img.src}")`;
+                                document.body.style.backgroundRepeat = 'no-repeat';
+                            })
                     })
                 })
-            })
-            .catch(err => {
-                console.log(err)
-            })
-
+                .catch(err => {
+                    console.log(err)
+                })
     }
 
-    backgroundImage('https://api.api-ninjas.com/v1/randomimage?category=nature&width=1920&height=1080', true);
+    backgroundImageInit('https://api.api-ninjas.com/v1/randomimage?category=nature&width=1920&height=1080');
+    setTimeout(()=>  backgroundIndexedImageInit('https://api.api-ninjas.com/v1/randomimage?category=nature&width=1920&height=1080'),3000);
 
     // Refresh
 
     const refreshBtn = document.querySelector('.refresh');
+    let indexedDBCounter = 2;
 
     refreshBtn.addEventListener('click', () => {
         refreshBtn.classList.add('rotateClass');
@@ -216,7 +266,27 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     refreshBtn.addEventListener('click', () => {
-        backgroundImage('https://api.api-ninjas.com/v1/randomimage?category=nature&width=1920&height=1080', false);
+        if (indexedDBCounter === 16) {
+          alert('The image database is out of date, please reload the page');
+            console.log('The image database is out of date, please reload the page.')
+            indexedDBCounter = 1;
+        }
+        let trans = db.transaction(['cachedForms'], 'readonly');
+        let req:IDBRequest = trans.objectStore('cachedForms').get(indexedDBCounter);
+        req.onsuccess = function() {
+            let record = req.result.data;
+            const backgroundFrame = document.querySelector('.background');
+            document.body.style.backgroundColor = 'rgba(0,0,0,.1)';
+            document.body.style.backgroundImage = `url("data:image/png;base64,${record}")`;
+            document.body.style.backgroundRepeat = 'no-repeat';
+            backgroundFrame.classList.add('opacityBG');
+            setTimeout(() => {
+                backgroundFrame.classList.remove('opacityBG');
+            }, 400)
+
+        }
+
+        indexedDBCounter++;
     })
 })
 export function saveToLocalStorage(name:string, value:string) {
