@@ -20,7 +20,11 @@
             What will you focus on today?
         </div>
         <span data-focus class="momentum__date-span" contenteditable="true"></span>
-        <img class="refresh" src=<%=require("./assets/img/icons/refresh.svg")%> alt="refresh">
+        <div class="momentum__date-refresh">
+            <img class="refresh__loading" src=<%=require("./assets/img/icons/spinner.svg")%> alt="loading">
+            <img class="refresh" src=<%=require("./assets/img/icons/refresh.svg")%> alt="refresh">
+        </div>
+
     </div>
     <div class="momentum__weather">
         <div class="momentum__weather-city"><span contenteditable="true" class="city">[ENTER CITY]</span></div>

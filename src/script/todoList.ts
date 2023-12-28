@@ -3,6 +3,19 @@ import editIcon from '../assets/img/icons/edit.svg';
 import saveIcon from '../assets/img/icons/save.svg';
 import deleteIcon from '../assets/img/icons/delete.svg';
 
+export function fadeOut(element:HTMLElement) {
+    element.classList.remove('fadeIn');
+    element.classList.add('fadeOut');
+    setTimeout(()=> {
+        element.style.visibility = 'hidden';
+    },401);
+}
+export  function fadeIn(element:HTMLElement) {
+    element.style.visibility = 'visible';
+    element.classList.add('fadeIn');
+    element.classList.remove('fadeOut');
+    element.focus();
+}
 document.addEventListener('DOMContentLoaded', () => {
     // Settings
 
@@ -11,32 +24,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const settingsClose = document.getElementById('settingsClose');
     const toDoWrapper = document.getElementById('toDoWrapper');
 
-    function fadeOut() {
-        settingsWrapper.classList.remove('settings-active');
-        settingsWrapper.classList.add('settings-disable');
-        setTimeout(()=> {
-            settingsWrapper.style.visibility = 'hidden';
-        },401);
-    }
-    function fadeIn() {
-        settingsWrapper.style.visibility = 'visible';
-        settingsWrapper.classList.add('settings-active');
-        settingsWrapper.classList.remove('settings-disable');
-        settingsWrapper.focus();
-    }
-
-    settings.addEventListener('click', fadeIn.bind(null));
-    settingsClose.addEventListener('click',fadeOut.bind(null));
+    settings.addEventListener('click', fadeIn.bind(null,settingsWrapper));
+    settingsClose.addEventListener('click',fadeOut.bind(null,settingsWrapper));
 
     settingsWrapper.addEventListener('keydown', e => {
         if(e.keyCode === 27) {
-            fadeOut();
+            fadeOut(settingsWrapper);
         }
     })
 
     toDoWrapper.addEventListener('click', e => {
         if (e.target === settingsWrapper) {
-            fadeOut();
+            fadeOut(settingsWrapper);
         }
     })
 
@@ -174,12 +173,12 @@ document.addEventListener('DOMContentLoaded', () => {
         if(tasksObj.pendingArray.length !== 0 || tasksObj.completedArray.length !== 0) {
             localStorage.setItem('list', JSON.stringify(tasksObj));
         }
-        fadeOut();
+        fadeOut(settingsWrapper);
 
     })
     toDoReset.addEventListener('click', () => {
         localStorage.setItem('list', '');
-        fadeOut();
+        fadeOut(settingsWrapper);
     })
     function listInit() {
         if (localStorage.getItem('list')) {

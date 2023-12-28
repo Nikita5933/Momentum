@@ -524,11 +524,11 @@ body, html {
     color: white;
     font-size: 1.6rem;
 }
-.settings-active {
-    animation: settingsIn .5s ease-out;
+.fadeIn {
+    animation: fadeIn .5s ease-out;
 }
-.settings-disable {
-    animation: settingsOut .5s ease-out;
+.fadeOut {
+    animation: fadeOut .5s ease-out;
 }
 .settings__btn {
     max-width: 30%;
@@ -562,7 +562,14 @@ transform: scale(.9);
     right: 10px;
     position: absolute;
     cursor: pointer;
-    align-self: end;
+}
+.refresh__loading {
+    visibility: hidden;
+    position: absolute;
+    bottom: 0;
+    right: 50px;
+    width: 60px;
+    height: 60px;
 }
 
 .change {
@@ -583,7 +590,7 @@ transform: scale(.9);
         transform: rotate(-360deg);
     }
 }
-@keyframes settingsIn {
+@keyframes fadeIn {
     0% {
         opacity: 0;
     }
@@ -593,7 +600,7 @@ transform: scale(.9);
     }
 }
 
-@keyframes settingsOut {
+@keyframes fadeOut {
     0% {
         opacity: 1;
     }

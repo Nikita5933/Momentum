@@ -1,3 +1,4 @@
+import {fadeIn, fadeOut} from "./todoList";
 
 document.addEventListener('DOMContentLoaded', () => {
     const time = document.querySelector('.momentum__date-time');
@@ -195,8 +196,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // API background image
 
-    function  backgroundIndexedImageInit(api:string) {
-       for (let i = 0; i < 14; i++) {
+    function  backgroundIndexedImageLoad(api:string) {
+        fadeIn(loadingSpinner);
+        setTimeout(() => fadeOut(loadingSpinner), 9000);
+       for (let i = 0; i <= 9; i++) {
            fetch(api,{ headers: { 'X-Api-Key': 'LIZy/oRMSBzGuJGljz/ePA==z2C33S6Tv8rW4nzN', 'Accept': 'image.jpg'}})
                .then(data => {
                    data.text().then(d => {
@@ -251,12 +254,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     backgroundImageInit('https://api.api-ninjas.com/v1/randomimage?category=nature&width=1920&height=1080');
-    setTimeout(()=>  backgroundIndexedImageInit('https://api.api-ninjas.com/v1/randomimage?category=nature&width=1920&height=1080'),3000);
+    setTimeout(()=>  backgroundIndexedImageLoad('https://api.api-ninjas.com/v1/randomimage?category=nature&width=1920&height=1080'),3000);
 
     // Refresh
 
     const refreshBtn = document.querySelector('.refresh');
+    const loadingSpinner:HTMLImageElement = document.querySelector('.refresh__loading');
     let indexedDBCounter = 2;
+    let indexedDBLoader:number = 0;
 
     refreshBtn.addEventListener('click', () => {
         refreshBtn.classList.add('rotateClass');
@@ -266,10 +271,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     refreshBtn.addEventListener('click', () => {
-        if (indexedDBCounter === 16) {
-          alert('The image database is out of date, please reload the page');
-            console.log('The image database is out of date, please reload the page.')
-            indexedDBCounter = 1;
+        if (indexedDBLoader === 5) {
+            backgroundIndexedImageLoad('https://api.api-ninjas.com/v1/randomimage?category=nature&width=1920&height=1080');
+            indexedDBLoader = 0;
         }
         let trans = db.transaction(['cachedForms'], 'readonly');
         let req:IDBRequest = trans.objectStore('cachedForms').get(indexedDBCounter);
@@ -285,7 +289,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }, 400)
 
         }
-
+        indexedDBLoader++;
         indexedDBCounter++;
     })
 })
