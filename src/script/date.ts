@@ -1,5 +1,8 @@
 import {fadeIn, fadeOut} from "./todoList";
 
+export function saveToLocalStorage(name:string, value:string) {
+    localStorage.setItem(name, value);
+}
 document.addEventListener('DOMContentLoaded', () => {
     const time = document.querySelector('.momentum__date-time');
     const date = <HTMLElement>document.querySelector('.momentum__date-date');
@@ -23,8 +26,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const currentMin = date.toTimeString().substring(3, 5);
         const currentSec = date.toTimeString().substring(6, 8);
         if (currentHours >= 1 && currentHours <= 12) {
-            hourSpan[0].innerHTML = currentHours[0];
-            hourSpan[1].innerHTML = currentHours[1];
+            hourSpan[0].innerHTML = currentHours.toString()[0];
+            hourSpan[1].innerHTML = currentHours.toString()[1];
         } else if (currentHours >= 13 && currentHours <= 21) {
             hourSpan[0].innerHTML = '0';
             hourSpan[1].innerHTML = (currentHours - 12).toString();
@@ -293,6 +296,3 @@ document.addEventListener('DOMContentLoaded', () => {
         indexedDBCounter++;
     })
 })
-export function saveToLocalStorage(name:string, value:string) {
-    localStorage.setItem(name, value);
-}
